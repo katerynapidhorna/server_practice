@@ -31,15 +31,45 @@ const userData = [
 ]
 
 
+
+function giveDatabyName(u) {
+  const message = `
+    <html>
+    <head><title>User info</title></head>
+    <body>
+    <h1>Person ${u.name}</h1>
+    <p>Age ${u.age}</p>
+    <p> Gender ${u.gender}</p>
+    </body>
+    `
+    return message;
+}
+
 function userInfo(request,response) {
   response.send(userData);
   console.log('data on the client')
+}
+
+function findOneByName(request,response) {
+  const name = request.params.name;
+  const result = userData.find((user) => {
+    return user.name === name;
+  })
+
+  if(result) {
+    response.send(giveDatabyName(result));
+  } else {
+    response.send(`<h1>no user</h1>`);
+  }
+ 
 }
 
                           //endpoints***************************//
 
 //user information
 app.get('/user-info',userInfo)
+
+app.get('/user-info/:name', findOneByName) 
 
 
 
